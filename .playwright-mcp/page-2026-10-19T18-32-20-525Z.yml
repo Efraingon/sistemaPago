@@ -1,0 +1,25 @@
+- generic [ref=e2]:
+  - main [ref=e5]:
+    - link "Volver al inicio" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - text: Volver al sitio
+    - generic [ref=e14]:
+      - strong [ref=e15]: Monrys Capital
+      - text: Sistema de pagos
+    - heading "Iniciar sesión" [level=1] [ref=e16]
+    - paragraph [ref=e17]: Acceso restringido a usuarios autorizados.
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: Usuario *
+        - textbox "Usuario *" [ref=e21]:
+          - /placeholder: Su usuario
+      - generic [ref=e22]:
+        - generic [ref=e23]: Clave *
+        - textbox "Clave *" [ref=e24]:
+          - /placeholder: Su clave
+      - button "Entrar" [ref=e25] [cursor=pointer]
+    - generic [ref=e26]:
+      - generic [ref=e27]: Modo demo
+      - generic [ref=e28]: ADMIN / admin123
+  - generic:
+    - status

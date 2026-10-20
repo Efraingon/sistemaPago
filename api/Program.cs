@@ -1,0 +1,226 @@
+using System.Text;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Monrys.Api.Controllers;
+using Monrys.Api.Data;
+using Monrys.Api.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ------------------------------------------------------------------ proveedor
+var proveedor = builder.Configuration["Database:Provider"]?.Trim().ToLowerInvariant() ?? "postgres";
+var cadenaPg = builder.Configuration.GetConnectionString("Monrys")
+    ?? "Host=localhost;Port=5432;Database=monrys;Username=postgres;Password=postgres;SearchPath=monrys";
+var cadenaSqlite = builder.Configuration.GetConnectionString("MonrysSqlite")
+    ?? "Data Source=monrys.db";
+
+// Pre-flight: si PostgreSQL no responde, caemos a SQLite (modo demo).
+if (proveedor == "postgres")
+{
+    try
+    {
+        using var pg = new Npgsql.NpgsqlConnection(cadenaPg);
+        pg.Open();
+        pg.Close();
+    }
+    catch (Exception ex)
+    {
+        proveedor = "sqlite";
+        Console.WriteLine($"[Monrys] PostgreSQL no disponible ({ex.Message.Split('\n')[0]}). Usando SQLite (modo demo).");
+    }
+}
+
+builder.Services.AddDbContext<MonrysDbContext>(opciones =>
+{
+    if (proveedor == "sqlite")
+    {
+        opciones.UseSqlite(cadenaSqlite);
+    }
+    else
+    {
+        opciones.UseNpgsql(cadenaPg, npg => npg.MigrationsHistoryTable("__EFMigrationsHistory", "monrys"));
+    }
+    opciones.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+    if (builder.Environment.IsDevelopment())
+    {
+        opciones.EnableSensitiveDataLogging();
+    }
+});
+
+// --------------------------------------------------------------------- token
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "MONRYS-DEV-KEY-DESA-SUFICIENTEMENTE-LARGA-2026";
+var issuer = builder.Configuration["Jwt:Issuer"] ?? "MonrysApi";
+var audience = builder.Configuration["Jwt:Audience"] ?? "MonrysApp";
+var horas = int.TryParse(builder.Configuration["Jwt:HorasExpiracion"], out var h) ? h : 8;
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", opciones =>
+    {
+        opciones.MapInboundClaims = false;
+        opciones.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            NameClaimType = "name",
+            RoleClaimType = "roles",
+        };
+    });
+
+builder.Services.AddAuthorizationBuilder()
+    .SetFallbackPolicy(new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build());
+
+// --------------------------------------------------------------------- CORS
+// Nota: la sección de appsettings es un objeto {"Origenes": [...]}, por eso se lee "Cors:Origenes"
+// (leer "Cors" como string[] produce un array vacío y deniega todos los orígenes).
+var cors = builder.Configuration.GetSection("Cors:Origenes").Get<string[]>() ?? ["http://localhost:4200"];
+builder.Services.AddCors(opciones => opciones.AddPolicy("Front", politica => politica
+    .WithOrigins(cors)
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()));
+
+// ----------------------------------------------------------------- servicios
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUsuarioActual, UsuarioActualHttpContext>();
+builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuditoriaService, AuditoriaService>();
+builder.Services.AddScoped<IAuditoriaConsultaService, AuditoriaConsultaService>();
+builder.Services.AddScoped<ICorrelativoService, CorrelativoService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IBancoService, BancoService>();
+builder.Services.AddScoped<ITasaService, TasaService>();
+builder.Services.AddScoped<IOperacionService, OperacionService>();
+builder.Services.AddScoped<ICajaService, CajaService>();
+builder.Services.AddScoped<ICustodioService, CustodioService>();
+builder.Services.AddScoped<ITransferenciaService, TransferenciaService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IConfiguracionService, ConfiguracionService>();
+builder.Services.AddScoped<IReportesService, ReportesService>();
+builder.Services.AddScoped<IInformeService, InformeService>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(opciones =>
+    {
+        opciones.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        opciones.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(opciones =>
+{
+    opciones.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Monrys Capital API v2",
+        Version = "v1",
+        Description = "API REST del sistema de pagos/casa de cambio Monrys (migración desde Visual FoxPro)."
+    });
+    opciones.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Token JWT devuelto por POST /api/auth/login"
+    });
+    opciones.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+var app = builder.Build();
+
+// ------------------------------------------------------------------- arranque
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<MonrysDbContext>();
+    if (proveedor == "sqlite")
+    {
+        await db.Database.EnsureCreatedAsync();
+        DbSeeder.Sembrar(db);
+        Console.WriteLine($"[Monrys] Base SQLite lista: {cadenaSqlite}");
+    }
+    else
+    {
+        await db.Database.EnsureCreatedAsync();
+        DbSeeder.Sembrar(db);
+        Console.WriteLine("[Monrys] Base PostgreSQL lista (schema monrys).");
+    }
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("Front"); // en desarrollo permite cualquier origen (proxy del front)
+    app.UseSwagger();
+    app.UseSwaggerUI(opciones =>
+    {
+        opciones.SwaggerEndpoint("/swagger/v1/swagger.json", "Monrys Capital API v2");
+        opciones.DocumentTitle = "Monrys Capital API v2";
+    });
+}
+else
+{
+    app.UseCors("Front");
+}
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async contexto =>
+    {
+        var excepcion = contexto.Features.Get<IExceptionHandlerFeature>()?.Error;
+        var (status, detalle) = excepcion switch
+        {
+            RecursoNoEncontradoException e => (StatusCodes.Status404NotFound, e.Message),
+            ValidacionException e => (StatusCodes.Status400BadRequest, e.Message),
+            ConflictoException e => (StatusCodes.Status409Conflict, e.Message),
+            _ => (StatusCodes.Status500InternalServerError, "Ocurrió un error inesperado.")
+        };
+        contexto.Response.StatusCode = status;
+        contexto.Response.ContentType = "application/problem+json";
+        await contexto.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = status,
+            Title = detalle,
+            Detail = excepcion is null ? null : excepcion.Message,
+            Instance = contexto.Request.Path
+        });
+    });
+});
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+// --------------------------------------------------------------- endpoint 404
+app.MapGet("/api/health", ([FromServices] IConfiguration config, IWebHostEnvironment env) => Results.Ok(new
+{
+    status = "ok",
+    api = "Monrys Capital API v2",
+    modo = config["Database:Provider"] ?? "postgres",
+    entorno = env.EnvironmentName,
+    fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+})).AllowAnonymous().WithTags("Health");
+
+app.MapControllers();
+
+app.Run();

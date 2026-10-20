@@ -1,0 +1,236 @@
+- generic [ref=e2]:
+  - generic [ref=e30]:
+    - complementary "Navegación principal" [ref=e31]:
+      - generic [ref=e37]:
+        - strong [ref=e38]: Monrys
+        - emphasis [ref=e39]: Capital
+      - navigation [ref=e40]:
+        - paragraph [ref=e41]: Operación
+        - link "Dashboard" [ref=e42] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Clientes" [ref=e50] [cursor=pointer]:
+          - /url: /clientes
+        - link "Compras" [ref=e58] [cursor=pointer]:
+          - /url: /operaciones/compras
+        - link "Ventas" [ref=e63] [cursor=pointer]:
+          - /url: /operaciones/ventas
+        - link "Caja" [ref=e68] [cursor=pointer]:
+          - /url: /caja
+        - link "Cierre de caja" [ref=e73] [cursor=pointer]:
+          - /url: /caja/cierre
+        - paragraph [ref=e79]: Tesorería
+        - link "Bancos" [ref=e80] [cursor=pointer]:
+          - /url: /bancos
+        - link "Transferencias" [ref=e87] [cursor=pointer]:
+          - /url: /transferencias
+        - link "Custodios" [ref=e93] [cursor=pointer]:
+          - /url: /custodios
+        - link "Tasas" [ref=e99] [cursor=pointer]:
+          - /url: /tasas
+        - paragraph [ref=e106]: Administración
+        - link "Estado general" [ref=e107] [cursor=pointer]:
+          - /url: /reportes/estado-general
+        - link "Cuadre de caja" [ref=e113] [cursor=pointer]:
+          - /url: /reportes/cuadre
+        - link "Estado de cuenta" [ref=e119] [cursor=pointer]:
+          - /url: /reportes/estado-cuenta
+        - link "Usuarios" [ref=e125] [cursor=pointer]:
+          - /url: /usuarios
+        - link "Configuración" [ref=e133] [cursor=pointer]:
+          - /url: /configuracion
+      - button "Colapsar menú" [ref=e139] [cursor=pointer]:
+        - generic [ref=e143]: Colapsar
+    - generic [ref=e144]:
+      - banner [ref=e145]:
+        - generic "Tasa del día" [ref=e146]:
+          - generic [ref=e147]: Tasa hoy
+          - generic [ref=e148]: 300,00 Bs
+          - generic [ref=e149]: compra 285,00
+        - generic [ref=e150]:
+          - generic [ref=e151]: 19/10/2026
+          - generic "Administrador" [ref=e152]:
+            - generic [aria-hidden] [ref=e153]: A
+            - generic [ref=e154]:
+              - strong [ref=e155]: Administrador
+              - generic [ref=e156]: ADMIN
+          - button "Salir" [ref=e157] [cursor=pointer]
+      - main [ref=e163]:
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - generic [ref=e166]:
+              - paragraph [ref=e167]: Sesión de operaciones
+              - heading "Dashboard" [level=1] [ref=e168]
+              - paragraph [ref=e169]: Resumen del día · 19/10/2026
+            - generic [ref=e170]:
+              - link [ref=e171] [cursor=pointer]:
+                - /url: /caja/cierre
+              - link [ref=e176] [cursor=pointer]:
+                - /url: /operaciones/compras
+          - generic [ref=e179]:
+            - article [ref=e180]:
+              - generic [ref=e181]: Saldo de caja
+              - generic [ref=e185]: "-80.226,73 Bs"
+              - generic [ref=e186]: Cuadre del día
+            - article [ref=e187]:
+              - generic [ref=e188]: Caja en USD
+              - generic [ref=e193]: $ -720,00
+              - generic [ref=e194]: Disponible
+            - article [ref=e195]:
+              - generic [ref=e196]: Tasa activa
+              - generic [ref=e202]: 220,00 Bs
+              - generic [ref=e203]: Compra 285,00 · Venta 300,00 Bs
+            - article [ref=e204]:
+              - generic [ref=e205]: Operaciones del día
+              - generic [ref=e210]: "0"
+              - generic [ref=e211]: 8859 compras · 2234 ventas acumuladas · 393 clientes
+          - generic [ref=e212]:
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - heading "Estado general por cliente" [level=2] [ref=e215]
+                - link "Ver reporte" [ref=e216] [cursor=pointer]:
+                  - /url: /reportes/estado-general
+              - table [ref=e218]:
+                - rowgroup [ref=e219]:
+                  - row [ref=e220]:
+                    - columnheader "Cliente" [ref=e221]
+                    - columnheader "Compras Bs" [ref=e222]
+                    - columnheader "Ventas Bs" [ref=e223]
+                    - columnheader "Consolidado" [ref=e224]
+                - rowgroup [ref=e225]:
+                  - row [ref=e226]:
+                    - cell "SERVICIO Y MANTENIMIENTO DL, C.A." [ref=e227]
+                    - cell "0,00" [ref=e228]
+                    - cell "3.195,50" [ref=e229]
+                    - cell "—" [ref=e230]
+                  - row [ref=e231]:
+                    - cell "1 CARTERA DE CRÉDITOS 1 CARTERA DE CRÉDITOS" [ref=e232]
+                    - cell "3.083.834,00" [ref=e233]
+                    - cell "78.594,50" [ref=e234]
+                    - cell "—" [ref=e235]
+                  - row [ref=e236]:
+                    - cell "1 LA TIENDITA 1 LA TIENDITA" [ref=e237]
+                    - cell "6.456,63" [ref=e238]
+                    - cell "2.036,14" [ref=e239]
+                    - cell "—" [ref=e240]
+                  - row [ref=e241]:
+                    - cell "1 MERCADOS Y OPERACIONES FINANCIERAS 1 MERCADOS Y OPERACIONES FINANCIERAS" [ref=e242]
+                    - cell "1.500,00" [ref=e243]
+                    - cell "3.325,05" [ref=e244]
+                    - cell "—" [ref=e245]
+                  - row [ref=e246]:
+                    - cell "1 OUTSOURCING 1 OUTSOURCING" [ref=e247]
+                    - cell "2.539.121,61" [ref=e248]
+                    - cell "5.036.240,51" [ref=e249]
+                    - cell "—" [ref=e250]
+                  - row [ref=e251]:
+                    - cell "2 DISTRIBUIDORA 2 DISTRIBUIDORA" [ref=e252]
+                    - cell "5.304.385,81" [ref=e253]
+                    - cell "2.200.802,31" [ref=e254]
+                    - cell "—" [ref=e255]
+                  - row [ref=e256]:
+                    - cell "2 SALON POOL 2 SALON POOL" [ref=e257]
+                    - cell "6.522,73" [ref=e258]
+                    - cell "0,00" [ref=e259]
+                    - cell "—" [ref=e260]
+                  - row [ref=e261]:
+                    - cell "KARLA ACIVE" [ref=e262]
+                    - cell "6.020,00" [ref=e263]
+                    - cell "0,00" [ref=e264]
+                    - cell "—" [ref=e265]
+            - generic [ref=e266]:
+              - generic [ref=e267]:
+                - heading "Cuadre del día" [level=2] [ref=e268]
+                - link "Ver cuadre" [ref=e269] [cursor=pointer]:
+                  - /url: /reportes/cuadre
+              - generic [ref=e270]:
+                - generic [ref=e271]:
+                  - generic [ref=e272]: Entradas
+                  - strong [ref=e276]: 0,00
+                - generic [ref=e277]:
+                  - generic [ref=e278]: Salidas
+                  - strong [ref=e282]: 0,00
+                - generic [ref=e283]:
+                  - generic [ref=e284]: Saldo del día
+                  - strong [ref=e285]: "-80.226,73 Bs"
+                - generic [ref=e286]:
+                  - generic [ref=e287]:
+                    - generic [ref=e288]: USD/BS
+                    - generic [ref=e289]: "-720,00"
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: BS
+                    - generic [ref=e292]: 78.173,27
+              - generic [ref=e293]:
+                - link [ref=e294] [cursor=pointer]:
+                  - /url: /caja
+                - link [ref=e298] [cursor=pointer]:
+                  - /url: /reportes/estado-cuenta
+          - generic [ref=e303]:
+            - generic [ref=e304]:
+              - heading "Últimas operaciones" [level=2] [ref=e305]
+              - generic [ref=e306]:
+                - link "Compras" [ref=e307] [cursor=pointer]:
+                  - /url: /operaciones/compras
+                - generic [ref=e308]: ·
+                - link "Ventas" [ref=e309] [cursor=pointer]:
+                  - /url: /operaciones/ventas
+            - table [ref=e311]:
+              - rowgroup [ref=e312]:
+                - row [ref=e313]:
+                  - columnheader "Tipo" [ref=e314]
+                  - columnheader "Fecha" [ref=e315]
+                  - columnheader "Cliente" [ref=e316]
+                  - columnheader "USD" [ref=e317]
+                  - columnheader "Tasa" [ref=e318]
+                  - columnheader "Monto Bs" [ref=e319]
+                  - columnheader "Estado" [ref=e320]
+              - rowgroup [ref=e321]:
+                - row [ref=e322]:
+                  - cell "Compra" [ref=e323]
+                  - cell "04/11/2025" [ref=e325]
+                  - cell "1 OUTSOURCING 1 OUTSOURCING" [ref=e326]
+                  - cell "217,25" [ref=e327]
+                  - cell "280,00" [ref=e328]
+                  - cell "60.830,00" [ref=e329]
+                  - cell "ACTIVO" [ref=e330]
+                - row [ref=e332]:
+                  - cell "Compra" [ref=e333]
+                  - cell "04/11/2025" [ref=e335]
+                  - cell "1 OUTSOURCING 1 OUTSOURCING" [ref=e336]
+                  - cell "140,00" [ref=e337]
+                  - cell "250,00" [ref=e338]
+                  - cell "35.000,00" [ref=e339]
+                  - cell "ACTIVO" [ref=e340]
+                - row [ref=e342]:
+                  - cell "Compra" [ref=e343]
+                  - cell "04/11/2025" [ref=e345]
+                  - cell "ANTONIO VALERO" [ref=e346]
+                  - cell "400,00" [ref=e347]
+                  - cell "295,00" [ref=e348]
+                  - cell "118.000,00" [ref=e349]
+                  - cell "ACTIVO" [ref=e350]
+                - row [ref=e352]:
+                  - cell "Compra" [ref=e353]
+                  - cell "04/11/2025" [ref=e355]
+                  - cell "ANTONIO VALERO" [ref=e356]
+                  - cell "100,00" [ref=e357]
+                  - cell "295,00" [ref=e358]
+                  - cell "29.500,00" [ref=e359]
+                  - cell "ACTIVO" [ref=e360]
+                - row [ref=e362]:
+                  - cell "Compra" [ref=e363]
+                  - cell "04/11/2025" [ref=e365]
+                  - cell "1 OUTSOURCING 1 OUTSOURCING" [ref=e366]
+                  - cell "100,00" [ref=e367]
+                  - cell "225,00" [ref=e368]
+                  - cell "22.500,00" [ref=e369]
+                  - cell "ACTIVO" [ref=e370]
+                - row [ref=e372]:
+                  - cell "Compra" [ref=e373]
+                  - cell "04/11/2025" [ref=e375]
+                  - cell "JOEL BRACHO" [ref=e376]
+                  - cell "100,00" [ref=e377]
+                  - cell "285,00" [ref=e378]
+                  - cell "28.500,00" [ref=e379]
+                  - cell "ACTIVO" [ref=e380]
+  - generic:
+    - status

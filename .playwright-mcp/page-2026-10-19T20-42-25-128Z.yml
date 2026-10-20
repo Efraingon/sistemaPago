@@ -1,0 +1,253 @@
+- generic [ref=f1e2]:
+  - generic [ref=f1e4]:
+    - complementary "Navegación principal" [ref=f1e5]:
+      - generic [ref=f1e11]:
+        - strong [ref=f1e12]: Monrys
+        - emphasis [ref=f1e13]: Capital
+      - navigation [ref=f1e14]:
+        - paragraph [ref=f1e15]: Operación
+        - link "Dashboard" [ref=f1e16] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Clientes" [ref=f1e24] [cursor=pointer]:
+          - /url: /clientes
+        - link "Compras" [ref=f1e32] [cursor=pointer]:
+          - /url: /operaciones/compras
+        - link "Ventas" [ref=f1e37] [cursor=pointer]:
+          - /url: /operaciones/ventas
+        - link "Caja" [ref=f1e42] [cursor=pointer]:
+          - /url: /caja
+        - link "Cierre de caja" [ref=f1e47] [cursor=pointer]:
+          - /url: /caja/cierre
+        - paragraph [ref=f1e53]: Tesorería
+        - link "Bancos" [ref=f1e54] [cursor=pointer]:
+          - /url: /bancos
+        - link "Transferencias" [ref=f1e61] [cursor=pointer]:
+          - /url: /transferencias
+        - link "Custodios" [ref=f1e67] [cursor=pointer]:
+          - /url: /custodios
+        - link "Tasas" [ref=f1e73] [cursor=pointer]:
+          - /url: /tasas
+        - paragraph [ref=f1e80]: Administración
+        - link "Centro de reportes" [ref=f1e81] [cursor=pointer]:
+          - /url: /reportes/centro
+        - link "Estado general" [ref=f1e88] [cursor=pointer]:
+          - /url: /reportes/estado-general
+        - link "Cuadre de caja" [ref=f1e94] [cursor=pointer]:
+          - /url: /reportes/cuadre
+        - link "Estado de cuenta" [ref=f1e100] [cursor=pointer]:
+          - /url: /reportes/estado-cuenta
+        - link "Usuarios" [ref=f1e106] [cursor=pointer]:
+          - /url: /usuarios
+        - link "Configuración" [ref=f1e114] [cursor=pointer]:
+          - /url: /configuracion
+      - button "Colapsar menú" [ref=f1e120] [cursor=pointer]:
+        - generic [ref=f1e124]: Colapsar
+    - generic [ref=f1e125]:
+      - banner [ref=f1e126]:
+        - generic "Tasa del día" [ref=f1e127]:
+          - generic [ref=f1e128]: Tasa hoy
+          - generic [ref=f1e129]: 300,00 Bs
+          - generic [ref=f1e130]: compra 285,00
+        - generic [ref=f1e131]:
+          - generic [ref=f1e132]: 19/10/2026
+          - generic "Administrador" [ref=f1e133]:
+            - generic [aria-hidden] [ref=f1e134]: A
+            - generic [ref=f1e135]:
+              - strong [ref=f1e136]: Administrador
+              - generic [ref=f1e137]: ADMIN
+          - button "Salir" [ref=f1e138] [cursor=pointer]
+      - main [ref=f1e144]:
+        - generic [ref=f1e145]:
+          - generic [ref=f1e146]:
+            - generic [ref=f1e147]:
+              - paragraph [ref=f1e148]: Reportes
+              - heading "Centro de Reportes" [level=1] [ref=f1e149]
+              - paragraph [ref=f1e150]: Todos los informes del sistema, con la estructura de los reportes originales de Visual FoxPro. Cada uno se puede ejecutar, imprimir y exportar a CSV.
+            - generic [ref=f1e151]: 20 informes
+          - generic [ref=f1e153]:
+            - generic [ref=f1e154]: Buscar informe
+            - searchbox "Buscar informe" [ref=f1e160]
+          - generic [ref=f1e161]:
+            - generic [ref=f1e162]:
+              - heading "Resumen gerencial" [level=2] [ref=f1e163]
+              - paragraph [ref=f1e164]: Consolidados y estados globales del negocio.
+            - generic [ref=f1e165]:
+              - article [ref=f1e166]:
+                - heading "Consolidado de operaciones" [level=3] [ref=f1e173]
+                - paragraph [ref=f1e174]: Compras, ventas, circulante y compensaciones en Bs y divisas.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e175]: consolidado.FRX
+                - generic [ref=f1e176]:
+                  - link [ref=f1e177] [cursor=pointer]:
+                    - /url: /reportes/informe/consolidado-operaciones
+                  - generic [ref=f1e183]: 2 parám.
+              - article [ref=f1e184]:
+                - heading "Estado general por cliente" [level=3] [ref=f1e191]
+                - paragraph [ref=f1e192]: "Debe/haber/saldo por cliente: compras, ventas y custodio."
+                - generic "Reporte original de Visual FoxPro" [ref=f1e193]: estadogeneral.FRX
+                - link [ref=f1e195] [cursor=pointer]:
+                  - /url: /reportes/estado-general
+          - generic [ref=f1e200]:
+            - generic [ref=f1e201]:
+              - heading "Caja" [level=2] [ref=f1e202]
+              - paragraph [ref=f1e203]: Cuadre por rango y libro de caja agrupado por origen.
+            - generic [ref=f1e204]:
+              - article [ref=f1e205]:
+                - heading "Cuadre de caja por rango" [level=3] [ref=f1e212]
+                - paragraph [ref=f1e213]: Movimientos día a día con saldo anterior y acumulado (nacional o divisas).
+                - generic "Reporte original de Visual FoxPro" [ref=f1e214]: cuadrebs.FRX / cuadredv.FRX
+                - generic [ref=f1e215]:
+                  - link [ref=f1e216] [cursor=pointer]:
+                    - /url: /reportes/informe/cuadre-rango
+                  - generic [ref=f1e222]: 3 parám.
+              - article [ref=f1e223]:
+                - heading "Libro de caja por origen" [level=3] [ref=f1e230]
+                - paragraph [ref=f1e231]: Movimientos agrupados por origen (ingresos/egresos) con totales por grupo.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e232]: ingresos_caja.FRX / ingresos_caja_cs.FRX
+                - generic [ref=f1e233]:
+                  - link [ref=f1e234] [cursor=pointer]:
+                    - /url: /reportes/informe/ingresos-caja
+                  - generic [ref=f1e240]: 3 parám.
+          - generic [ref=f1e241]:
+            - generic [ref=f1e242]:
+              - heading "Operaciones" [level=2] [ref=f1e243]
+              - paragraph [ref=f1e244]: Listados y detalle de compras, ventas y sus cuotas.
+            - generic [ref=f1e245]:
+              - article [ref=f1e246]:
+                - heading "Detalle de operaciones de compra" [level=3] [ref=f1e253]
+                - paragraph [ref=f1e254]: Compras del período con pagos, divisas recibidas y saldos.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e255]: detacomp.FRX / detarecibido.FRX / opercomp.FRX
+                - generic [ref=f1e256]:
+                  - link [ref=f1e257] [cursor=pointer]:
+                    - /url: /reportes/informe/operaciones-compras
+                  - generic [ref=f1e263]: 3 parám.
+              - article [ref=f1e264]:
+                - heading "Detalle de operaciones de venta" [level=3] [ref=f1e271]
+                - paragraph [ref=f1e272]: Ventas del período con cobros, divisas entregadas y saldos.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e273]: detavent.FRX / detaentrgad.FRX / opervent.FRX
+                - generic [ref=f1e274]:
+                  - link [ref=f1e275] [cursor=pointer]:
+                    - /url: /reportes/informe/operaciones-ventas
+                  - generic [ref=f1e281]: 3 parám.
+              - article [ref=f1e282]:
+                - heading "Informe de cobros (ventas)" [level=3] [ref=f1e289]
+                - paragraph [ref=f1e290]: Cobros en Bs de cada venta del período, con totales por venta.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e291]: cobros.FRX / pagos.FRX
+                - generic [ref=f1e292]:
+                  - link [ref=f1e293] [cursor=pointer]:
+                    - /url: /reportes/informe/cobros-ventas
+                  - generic [ref=f1e299]: 2 parám.
+              - article [ref=f1e300]:
+                - heading "Informe de recepciones (compras)" [level=3] [ref=f1e307]
+                - paragraph [ref=f1e308]: Cuotas de divisa recibida por cada compra del período.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e309]: recepcion.FRX
+                - generic [ref=f1e310]:
+                  - link [ref=f1e311] [cursor=pointer]:
+                    - /url: /reportes/informe/recepciones-compras
+                  - generic [ref=f1e317]: 2 parám.
+              - article [ref=f1e318]:
+                - heading "Informe de entregas (ventas)" [level=3] [ref=f1e325]
+                - paragraph [ref=f1e326]: Cuotas de divisa entregada por cada venta del período.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e327]: entregas.FRX
+                - generic [ref=f1e328]:
+                  - link [ref=f1e329] [cursor=pointer]:
+                    - /url: /reportes/informe/entregas-ventas
+                  - generic [ref=f1e335]: 2 parám.
+              - article [ref=f1e336]:
+                - heading "Transferencias del período" [level=3] [ref=f1e343]
+                - paragraph [ref=f1e344]: Libro de transferencias bancarias con totales.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e345]: transferencia.FRX
+                - generic [ref=f1e346]:
+                  - link [ref=f1e347] [cursor=pointer]:
+                    - /url: /reportes/informe/transferencias-rango
+                  - generic [ref=f1e353]: 3 parám.
+          - generic [ref=f1e354]:
+            - generic [ref=f1e355]:
+              - heading "Clientes" [level=2] [ref=f1e356]
+              - paragraph [ref=f1e357]: Saldos por divisa, fichas y directorio.
+            - generic [ref=f1e358]:
+              - article [ref=f1e359]:
+                - heading "Saldo por recibir en divisas" [level=3] [ref=f1e366]
+                - paragraph [ref=f1e367]: "Por cliente: divisas comprometidas, recibidas y por recibir."
+                - generic "Reporte original de Visual FoxPro" [ref=f1e368]: detallecompras_clie.FRX
+                - link [ref=f1e370] [cursor=pointer]:
+                  - /url: /reportes/informe/saldos-divisas-compras
+              - article [ref=f1e376]:
+                - heading "Saldo por entregar en divisas" [level=3] [ref=f1e383]
+                - paragraph [ref=f1e384]: "Por cliente: divisas comprometidas, entregadas y por entregar."
+                - generic "Reporte original de Visual FoxPro" [ref=f1e385]: DETALLEVENTAS_CLIE.FRX
+                - link [ref=f1e387] [cursor=pointer]:
+                  - /url: /reportes/informe/saldos-divisas-ventas
+              - article [ref=f1e393]:
+                - heading "Cuenta del cliente" [level=3] [ref=f1e400]
+                - paragraph [ref=f1e401]: Estado de cuenta detallado (línea de tiempo) de un cliente.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e402]: detallecompras.FRX / detalleventas.FRX
+                - generic [ref=f1e403]:
+                  - link [ref=f1e404] [cursor=pointer]:
+                    - /url: /reportes/estado-cuenta
+                  - generic [ref=f1e409]: 3 parám.
+              - article [ref=f1e410]:
+                - heading "Ficha del cliente" [level=3] [ref=f1e417]
+                - paragraph [ref=f1e418]: Datos de identificación, contacto y cuentas bancarias.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e419]: fichaclie.FRX
+                - generic [ref=f1e420]:
+                  - link [ref=f1e421] [cursor=pointer]:
+                    - /url: /reportes/informe/ficha-cliente
+                  - generic [ref=f1e427]: 1 parám.
+              - article [ref=f1e428]:
+                - heading "Lista de clientes" [level=3] [ref=f1e435]
+                - paragraph [ref=f1e436]: "Directorio imprimible: nombre, RIF, cédula, teléfonos y correo."
+                - generic "Reporte original de Visual FoxPro" [ref=f1e437]: listaclie.FRX
+                - generic [ref=f1e438]:
+                  - link [ref=f1e439] [cursor=pointer]:
+                    - /url: /reportes/informe/lista-clientes
+                  - generic [ref=f1e445]: 1 parám.
+          - generic [ref=f1e446]:
+            - generic [ref=f1e447]:
+              - heading "Bancos" [level=2] [ref=f1e448]
+              - paragraph [ref=f1e449]: Extractos y movimientos de cuentas de la casa.
+            - generic [ref=f1e450]:
+              - article [ref=f1e451]:
+                - heading "Extracto bancario" [level=3] [ref=f1e458]
+                - paragraph [ref=f1e459]: Saldo anterior, movimientos y saldo acumulado por cuenta.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e460]: genelal_1.FRX / saldog1.FRX
+                - generic [ref=f1e461]:
+                  - link [ref=f1e462] [cursor=pointer]:
+                    - /url: /reportes/informe/extracto-banco
+                  - generic [ref=f1e468]: 4 parám.
+              - article [ref=f1e469]:
+                - heading "Movimientos bancarios" [level=3] [ref=f1e476]
+                - paragraph [ref=f1e477]: Créditos y débitos de transferencias por banco.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e478]: movimientoscr.FRX / movimientosdb.FRX
+                - generic [ref=f1e479]:
+                  - link [ref=f1e480] [cursor=pointer]:
+                    - /url: /reportes/informe/movimientos-banco
+                  - generic [ref=f1e486]: 4 parám.
+          - generic [ref=f1e487]:
+            - generic [ref=f1e488]:
+              - heading "Custodios" [level=2] [ref=f1e489]
+              - paragraph [ref=f1e490]: Movimientos y disponibilidad de custodia de clientes.
+            - generic [ref=f1e491]:
+              - article [ref=f1e492]:
+                - heading "Informe de custodios" [level=3] [ref=f1e499]
+                - paragraph [ref=f1e500]: Depósitos, retiros y saldo de custodia en un período (por cliente).
+                - generic "Reporte original de Visual FoxPro" [ref=f1e501]: ver_custodios.FRX / ver_custodiosclie.FRX
+                - generic [ref=f1e502]:
+                  - link [ref=f1e503] [cursor=pointer]:
+                    - /url: /reportes/informe/custodios-cliente
+                  - generic [ref=f1e509]: 3 parám.
+              - article [ref=f1e510]:
+                - heading "Custodios — resumen por cliente" [level=3] [ref=f1e517]
+                - paragraph [ref=f1e518]: Depósitos, retiros, saldo y disponibilidad actual por cliente y moneda.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e519]: ver_custodiostodos.FRX
+                - link [ref=f1e521] [cursor=pointer]:
+                  - /url: /reportes/informe/custodios-todos
+              - article [ref=f1e527]:
+                - heading "Custodios vía banco" [level=3] [ref=f1e534]
+                - paragraph [ref=f1e535]: Movimientos de custodia registrados con recibo/cuenta bancaria.
+                - generic "Reporte original de Visual FoxPro" [ref=f1e536]: ver_custodiosb.FRX
+                - generic [ref=f1e537]:
+                  - link [ref=f1e538] [cursor=pointer]:
+                    - /url: /reportes/informe/custodios-banco
+                  - generic [ref=f1e544]: 2 parám.
+  - generic:
+    - status

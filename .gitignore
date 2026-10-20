@@ -1,0 +1,62 @@
+# =================
+# JavaScript / Node
+# =================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Angular build output
+web/dist/
+web/.angular/
+
+# =================
+# .NET
+# =================
+api/bin/
+api/obj/
+api/*.db
+api/*.db-shm
+api/*.db-wal
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# =================
+# IDE / Editor
+# =================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# =================
+# OS
+# =================
+.DS_Store
+Thumbs.db
+
+# =================
+# Playwright
+# =================
+playwright-report/
+test-results/
+*.webm
+*.png
+!web/e2e/*.spec.ts
+
+# =================
+# Environment / secrets
+# =================
+.env
+appsettings.Development.json
+
+# =================
+# Misc
+# =================
+*.log
+tmp/
+temp/
