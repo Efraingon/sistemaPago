@@ -1,0 +1,41 @@
+# Build output
+bin/
+obj/
+publish/
+
+# IDE / Editor
+.vs/
+.idea/
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database files (SQLite)
+*.db
+*.db-shm
+*.db-wal
+
+# Environment / secrets
+.env
+appsettings.Development.json
+
+# Node (frontend está en otra carpeta, no hace falta aquí)
+node_modules/
+npm-debug.log*
+
+# Test artifacts
+TestResults/
+*.trx
+
+# Documentation
+README.md
+docs/
+tools/

@@ -169,20 +169,14 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-if (app.Environment.IsDevelopment())
+app.UseCors("Front");
+
+app.UseSwagger();
+app.UseSwaggerUI(opciones =>
 {
-    app.UseCors("Front"); // en desarrollo permite cualquier origen (proxy del front)
-    app.UseSwagger();
-    app.UseSwaggerUI(opciones =>
-    {
-        opciones.SwaggerEndpoint("/swagger/v1/swagger.json", "Monrys Capital API v2");
-        opciones.DocumentTitle = "Monrys Capital API v2";
-    });
-}
-else
-{
-    app.UseCors("Front");
-}
+    opciones.SwaggerEndpoint("/swagger/v1/swagger.json", "Monrys Capital API v2");
+    opciones.DocumentTitle = "Monrys Capital API v2";
+});
 
 app.UseExceptionHandler(errorApp =>
 {
