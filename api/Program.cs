@@ -11,6 +11,9 @@ using Monrys.Api.Controllers;
 using Monrys.Api.Data;
 using Monrys.Api.Services;
 
+Console.WriteLine($"[Monrys] === arranque {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC ===");
+Console.Out.Flush();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ------------------------------------------------------------------ proveedor
@@ -24,20 +27,32 @@ var cadenaSqlite = builder.Configuration.GetConnectionString("MonrysSqlite")
 // En produccion se desactiva con Database:FallbackSqlite=false: es preferible
 // que el contenedor falle de forma visible antes que arrancar en modo demo.
 var respaldoSqlite = builder.Configuration.GetValue("Database:FallbackSqlite", true);
-if (proveedor == "postgres" && respaldoSqlite)
+string? errorBase = null;
+
+// Pre-flight con timeout corto: sirve para diagnosticar el arranque en PaaS.
+// El resultado se expone en /api/health para no depender de los logs del contenedor.
+if (proveedor == "postgres")
 {
     try
     {
-        using var pg = new Npgsql.NpgsqlConnection(cadenaPg);
+        var csb = new Npgsql.NpgsqlConnectionStringBuilder(cadenaPg) { Timeout = 5 };
+        using var pg = new Npgsql.NpgsqlConnection(csb.ConnectionString);
         pg.Open();
         pg.Close();
+        Console.WriteLine($"[Monrys] Pre-flight OK -> {csb.Host}:{csb.Port}/{csb.Database} (usuario {csb.Username})");
     }
     catch (Exception ex)
     {
-        proveedor = "sqlite";
-        Console.WriteLine($"[Monrys] PostgreSQL no disponible ({ex.Message.Split('\n')[0]}). Usando SQLite (modo demo).");
+        errorBase = $"{ex.GetType().Name}: {ex.Message}";
+        Console.WriteLine($"[Monrys] Pre-flight FALLO -> {errorBase}");
+        if (respaldoSqlite)
+        {
+            proveedor = "sqlite";
+            Console.WriteLine("[Monrys] Usando SQLite (modo demo).");
+        }
     }
 }
+Console.Out.Flush();
 
 builder.Services.AddDbContext<MonrysDbContext>(opciones =>
 {
@@ -158,18 +173,20 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<MonrysDbContext>();
-    if (proveedor == "sqlite")
+    try
     {
+        Console.WriteLine($"[Monrys] Inicializando base ({proveedor})...");
+        Console.Out.Flush();
         await db.Database.EnsureCreatedAsync();
         DbSeeder.Sembrar(db);
-        Console.WriteLine($"[Monrys] Base SQLite lista: {cadenaSqlite}");
+        Console.WriteLine($"[Monrys] Base {proveedor} lista.");
     }
-    else
+    catch (Exception ex)
     {
-        await db.Database.EnsureCreatedAsync();
-        DbSeeder.Sembrar(db);
-        Console.WriteLine("[Monrys] Base PostgreSQL lista (schema monrys).");
+        errorBase = $"{ex.GetType().Name}: {ex.Message}";
+        Console.WriteLine($"[Monrys] ERROR base {proveedor} -> {errorBase}");
     }
+    Console.Out.Flush();
 }
 
 app.UseCors("Front");
@@ -209,12 +226,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // --------------------------------------------------------------- endpoint 404
-app.MapGet("/api/health", ([FromServices] IConfiguration config, IWebHostEnvironment env) => Results.Ok(new
+app.MapGet("/", () => Results.Ok(new { status = "ok", api = "Monrys Capital API v2" }))
+    .AllowAnonymous();
+
+app.MapGet("/api/health", ([FromServices] IWebHostEnvironment env) => Results.Ok(new
 {
     status = "ok",
     api = "Monrys Capital API v2",
-    modo = config["Database:Provider"] ?? "postgres",
+    modo = proveedor,
     entorno = env.EnvironmentName,
+    baseDatos = errorBase is null ? "ok" : "error",
+    error = errorBase,
     fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
 })).AllowAnonymous().WithTags("Health");
 
