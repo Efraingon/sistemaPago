@@ -1,13 +1,10 @@
-# Despliegue del API Monrys a Azure App Service (Linux, .NET 9)
+# Construye la imagen del API y la publica en GitHub Container Registry (GHCR).
+# Azure App Service (Linux, contenedor) la descarga desde ghcr.io.
 #
-# Requisitos en GitHub:
-#   Settings > Secrets and variables > Actions > New repository secret
-#     AZURE_WEBAPP_PUBLISH_PROFILE = contenido del "publish profile" de Azure
-#
-# Requisitos en Azure:
-#   Web App "monrys-api" (Linux, Code, .NET 9, plan B1, Always On = On)
+# No requiere secretos adicionales: usa el GITHUB_TOKEN del propio workflow.
+# Imagen resultante: ghcr.io/efraingon/sistema-pago-api:latest
 
-name: Deploy API (Azure App Service)
+name: Build API (imagen Docker)
 
 on:
   push:
@@ -18,31 +15,31 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: monrys-api
-  DOTNET_VERSION: "9.0.x"
-  PROJECT: api/Monrys.Api.csproj
+  IMAGE: ghcr.io/efraingon/sistema-pago-api
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Login en GHCR
+        uses: docker/login-action@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.PROJECT }}
-
-      - name: Publish
-        run: dotnet publish ${{ env.PROJECT }} -c Release -o ${{ runner.temp }}/publish --no-restore
-
-      - name: Deploy to Azure
-        uses: azure/webapps-deploy@v3
+      - name: Build y push
+        uses: docker/build-push-action@v6
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ runner.temp }}/publish
+          context: ./api
+          file: ./api/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:${{ github.sha }}
