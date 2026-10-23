@@ -1,6 +1,7 @@
 # ============================================
-# Dockerfile — Monrys.Api (.NET 9)
-# Desplegado en Koyeb (plan Nano gratuito)
+# Dockerfile - Monrys.Api (.NET 9)
+# Compatible con cualquier PaaS de contenedores
+# (Render, Koyeb, Fly.io, Cloud Run, VPS...)
 # ============================================
 
 # --------------------------------------------
@@ -13,7 +14,7 @@ WORKDIR /src
 COPY ["Monrys.Api.csproj", "./"]
 RUN dotnet restore "Monrys.Api.csproj"
 
-# Copiar el resto del código fuente
+# Copiar el resto del codigo fuente
 COPY . ./
 
 # Publicar en modo Release
@@ -25,16 +26,13 @@ RUN dotnet publish "Monrys.Api.csproj" -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
 
-# Variables de entorno por defecto (se sobrescriben con las de Koyeb)
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=http://+:${PORT:-8080}
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
-# Copiar los archivos publicados desde el stage de build
 COPY --from=build /app/publish .
 
-# Puerto expuesto (Koyeb inyecta la variable PORT)
-EXPOSE ${PORT:-8080}
-
-# Comando de inicio
-ENTRYPOINT ["dotnet", "Monrys.Api.dll"]
+# El puerto se resuelve en RUNTIME: la mayoria de PaaS inyectan PORT
+# (Render usa 10000 por defecto); si no existe, 8080.
+# No se declara EXPOSE a proposito: Render deduce el puerto de PORT cuando
+# el Dockerfile no expone ninguno, y asi ambos valores no pueden divergir.
+ENTRYPOINT ["/bin/sh", "-c", "ASPNETCORE_URLS=http://+:${PORT:-8080} exec dotnet Monrys.Api.dll"]

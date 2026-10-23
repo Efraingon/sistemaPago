@@ -1,0 +1,48 @@
+# Despliegue del API Monrys a Azure App Service (Linux, .NET 9)
+#
+# Requisitos en GitHub:
+#   Settings > Secrets and variables > Actions > New repository secret
+#     AZURE_WEBAPP_PUBLISH_PROFILE = contenido del "publish profile" de Azure
+#
+# Requisitos en Azure:
+#   Web App "monrys-api" (Linux, Code, .NET 9, plan B1, Always On = On)
+
+name: Deploy API (Azure App Service)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - ".github/workflows/azure-api.yml"
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: monrys-api
+  DOTNET_VERSION: "9.0.x"
+  PROJECT: api/Monrys.Api.csproj
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.PROJECT }}
+
+      - name: Publish
+        run: dotnet publish ${{ env.PROJECT }} -c Release -o ${{ runner.temp }}/publish --no-restore
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ runner.temp }}/publish

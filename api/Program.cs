@@ -21,7 +21,10 @@ var cadenaSqlite = builder.Configuration.GetConnectionString("MonrysSqlite")
     ?? "Data Source=monrys.db";
 
 // Pre-flight: si PostgreSQL no responde, caemos a SQLite (modo demo).
-if (proveedor == "postgres")
+// En produccion se desactiva con Database:FallbackSqlite=false: es preferible
+// que el contenedor falle de forma visible antes que arrancar en modo demo.
+var respaldoSqlite = builder.Configuration.GetValue("Database:FallbackSqlite", true);
+if (proveedor == "postgres" && respaldoSqlite)
 {
     try
     {
