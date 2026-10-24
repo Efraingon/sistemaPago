@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://monrys-api.azurewebsites.net/api/:path*"
+      "destination": "https://monrys-api-c3emezhrg4ebfqhf.westus3-01.azurewebsites.net/api/:path*"
     },
     {
       "source": "/(.*)",

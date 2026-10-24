@@ -23,24 +23,6 @@ var cadenaPg = builder.Configuration.GetConnectionString("Monrys")
 var cadenaSqlite = builder.Configuration.GetConnectionString("MonrysSqlite")
     ?? "Data Source=monrys.db";
 
-// Diagnóstico: datos de la cadena de conexión (sin exponer la contraseña).
-string pgHost = "", pgUser = "", pgPassSha = "";
-int pgPort = 0, pgPassLen = 0;
-try
-{
-    var csbInfo = new Npgsql.NpgsqlConnectionStringBuilder(cadenaPg);
-    pgHost = csbInfo.Host ?? "";
-    pgPort = csbInfo.Port;
-    pgUser = csbInfo.Username ?? "";
-    pgPassLen = (csbInfo.Password ?? "").Length;
-    pgPassSha = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(
-        System.Text.Encoding.UTF8.GetBytes(csbInfo.Password ?? "")))[..12].ToLowerInvariant();
-}
-catch (Exception ex)
-{
-    pgHost = "ERROR: " + ex.Message;
-}
-
 // Pre-flight: si PostgreSQL no responde, caemos a SQLite (modo demo).
 // En produccion se desactiva con Database:FallbackSqlite=false: es preferible
 // que el contenedor falle de forma visible antes que arrancar en modo demo.
@@ -255,7 +237,6 @@ app.MapGet("/api/health", ([FromServices] IWebHostEnvironment env) => Results.Ok
     entorno = env.EnvironmentName,
     baseDatos = errorBase is null ? "ok" : "error",
     error = errorBase,
-    pg = new { host = pgHost, port = pgPort, usuario = pgUser, passLen = pgPassLen, passSha = pgPassSha },
     fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
 })).AllowAnonymous().WithTags("Health");
 
